@@ -9,4 +9,5 @@
   padding: 1rem;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  box-shadow: 3px 3px 3px $shadow;
 }
