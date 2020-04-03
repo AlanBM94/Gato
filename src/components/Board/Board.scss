@@ -1,0 +1,12 @@
+@import "./../../scss/variables.scss";
+
+.board {
+  background: $white;
+  width: 60%;
+  height: 80vh;
+  border-radius: 5px;
+  display: grid;
+  padding: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}

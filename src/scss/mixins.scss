@@ -1,0 +1,23 @@
+@import "./variables.scss";
+
+@mixin borderRightBottom {
+  border-right: $border-style;
+  border-bottom: $border-style;
+}
+
+@mixin borderBottom {
+  border-bottom: $border-style;
+}
+
+@mixin borderLeft {
+  border-left: $border-style;
+}
+
+@mixin borderRight {
+  border-right: $border-style;
+}
+
+@mixin borderLeftBottom {
+  border-left: $border-style;
+  border-bottom: $border-style;
+}
