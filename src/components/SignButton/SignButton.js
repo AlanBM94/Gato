@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import { GameContext } from "./../../context/GameContext";
 import "./SignButton.scss";
 
-const SignButton = ({ position, xAxis, yAxis }) => {
-  const [isPressed, setIsPressed] = useState();
+const SignButton = ({ position, xAxis, yAxis, updateBoardState }) => {
+  const [isPressed, setIsPressed] = useState(false);
   const [currentSign, setCurrentSign] = useState();
   const { gameState, pressInTurn, setBoard, checkIfSomeoneWin } = useContext(
     GameContext
@@ -23,16 +23,17 @@ const SignButton = ({ position, xAxis, yAxis }) => {
       ? setBoard(xAxis, yAxis, "x")
       : setBoard(xAxis, yAxis, "o");
     checkIfSomeoneWin();
+    updateBoardState();
   };
-  console.log(gameState);
 
   return (
-    <div
+    <button
       className={`signButton signButton--${position}`}
       onClick={clickHandler}
+      disabled={isPressed}
     >
       {isPressed && currentSign}
-    </div>
+    </button>
   );
 };
 

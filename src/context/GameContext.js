@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from "react";
 import gameReducer from "./gameReducer";
 
-const initialState = {
+export const initialState = {
   board: [
     ["", "", ""],
     ["", "", ""],
@@ -20,6 +20,8 @@ const initialState = {
     win: false,
   },
   gameOver: false,
+  tie: false,
+  someoneWin: false,
 };
 
 export const GameContext = createContext(initialState);

@@ -1,19 +1,81 @@
+import { initialState } from "./GameContext";
+
 export default (state, action) => {
   const { type, payload } = action;
+  const { board } = state;
+
+  const checkWhoWon = () => {
+    if (!state.player1.turn) {
+      state.player1.win = true;
+    } else {
+      state.player2.win = true;
+    }
+  };
 
   const checkForRows = () => {
-    const { board } = state;
     if (
       (board[0][0] === "x" && board[0][1] === "x" && board[0][2] === "x") ||
       (board[0][0] === "o" && board[0][1] === "o" && board[0][2] === "o")
     ) {
       state.gameOver = true;
+      checkWhoWon();
+    }
+    if (
+      (board[1][0] === "x" && board[1][1] === "x" && board[1][2] === "x") ||
+      (board[1][0] === "o" && board[1][1] === "o" && board[1][2] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+    if (
+      (board[2][0] === "x" && board[2][1] === "x" && board[2][2] === "x") ||
+      (board[2][0] === "o" && board[2][1] === "o" && board[2][2] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
     }
   };
 
-  //   const checkForColumns = () => {};
+  const checkForColumns = () => {
+    if (
+      (board[0][2] === "x" && board[1][2] === "x" && board[2][2] === "x") ||
+      (board[0][2] === "o" && board[1][2] === "o" && board[2][2] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+    if (
+      (board[0][1] === "x" && board[1][1] === "x" && board[2][1] === "x") ||
+      (board[0][1] === "o" && board[1][1] === "o" && board[2][1] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+    if (
+      (board[0][0] === "x" && board[1][0] === "x" && board[2][0] === "x") ||
+      (board[0][0] === "o" && board[1][0] === "o" && board[2][0] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+  };
 
-  //   const checkForDiagonals = () => {};
+  const checkForDiagonals = () => {
+    if (
+      (board[0][0] === "x" && board[1][1] === "x" && board[2][2] === "x") ||
+      (board[0][0] === "o" && board[1][1] === "o" && board[2][2] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+    if (
+      (board[0][2] === "x" && board[1][1] === "x" && board[2][0] === "x") ||
+      (board[0][2] === "o" && board[1][1] === "o" && board[2][0] === "o")
+    ) {
+      state.gameOver = true;
+      checkWhoWon();
+    }
+  };
 
   switch (type) {
     case "PRESS_IN_TURN":
@@ -31,7 +93,8 @@ export default (state, action) => {
       return state;
     case "CHECK_IF_SOMEONE_WIN":
       checkForRows();
-      return state;
+      checkForColumns();
+      checkForDiagonals();
     default:
       return state;
   }

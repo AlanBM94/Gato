@@ -1,6 +1,7 @@
 import React from "react";
 import Board from "./components/Board/Board";
 import { GameContexProvider } from "./context/GameContext";
+
 import "./App.css";
 
 function App() {
