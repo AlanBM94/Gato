@@ -1,25 +1,20 @@
 import React, { useState, useContext } from "react";
 import SignButton from "./../SignButton/SignButton";
+import Message from "./../Message/Message";
 import { GameContext } from "./../../context/GameContext";
 import "./Board.scss";
 
 const Board = () => {
   const [gameHasFinished, setGameHasFinished] = useState(false);
-  const { gameState } = useContext(GameContext);
+  const { gameState, restartGame } = useContext(GameContext);
 
-  const updateBoardStateHandler = () => {
-    if (gameState.gameOver) {
-      setGameHasFinished(true);
-    }
-  };
-
-  const makeMessage = () => {
+  const createMessage = () => {
     let message;
     if (gameState.player1.win) {
       message = "El jugador uno ha ganado";
     } else if (gameState.player2.win) {
       message = "El jugador dos ha ganado";
-    } else {
+    } else if (gameState.isATie) {
       message = "Es un empate!";
     }
     return message;
@@ -31,17 +26,31 @@ const Board = () => {
       classComponent = "pink";
     } else if (gameState.player2.win) {
       classComponent = "blue";
-    } else {
+    } else if (gameState.isATie) {
       classComponent = "purple";
     }
     return classComponent;
   };
 
+  const updateBoardStateHandler = () => {
+    if (gameState.gameOver) {
+      setGameHasFinished(true);
+      createMessage();
+      createClass();
+    }
+  };
+
+  const restartGameHandler = () => {
+    setGameHasFinished(false);
+    restartGame();
+  };
+
   const content = gameHasFinished ? (
-    <div className={`message message--${createClass()}`}>
-      <p>{makeMessage()}</p>
-      <button>Reiniciar</button>
-    </div>
+    <Message
+      className={createClass()}
+      content={createMessage()}
+      restartGame={restartGameHandler}
+    />
   ) : (
     <>
       <SignButton

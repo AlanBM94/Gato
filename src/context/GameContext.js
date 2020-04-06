@@ -9,19 +9,16 @@ export const initialState = {
   ],
   player1: {
     turn: true,
-    rows: 0,
-    columns: 0,
     win: false,
   },
   player2: {
     turn: false,
-    rows: 0,
-    columns: 0,
     win: false,
   },
   gameOver: false,
   tie: false,
   someoneWin: false,
+  isATie: false,
 };
 
 export const GameContext = createContext(initialState);
@@ -44,9 +41,19 @@ export const GameContexProvider = ({ children }) => {
     dispatch({ type: "CHECK_IF_SOMEONE_WIN" });
   };
 
+  const restartGame = () => {
+    dispatch({ type: "RESTART_GAME" });
+  };
+
   return (
     <GameContext.Provider
-      value={{ gameState, pressInTurn, setBoard, checkIfSomeoneWin }}
+      value={{
+        gameState,
+        pressInTurn,
+        setBoard,
+        checkIfSomeoneWin,
+        restartGame,
+      }}
     >
       {children}
     </GameContext.Provider>

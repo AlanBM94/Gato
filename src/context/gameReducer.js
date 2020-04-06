@@ -77,6 +77,23 @@ export default (state, action) => {
     }
   };
 
+  const checkIfIsATie = () => {
+    if (
+      board[0][0] !== "" &&
+      board[0][1] !== "" &&
+      board[0][2] !== "" &&
+      board[1][0] !== "" &&
+      board[1][1] !== "" &&
+      board[1][2] !== "" &&
+      board[2][0] !== "" &&
+      board[2][1] !== "" &&
+      board[2][2] !== ""
+    ) {
+      state.isATie = true;
+      state.gameOver = true;
+    }
+  };
+
   switch (type) {
     case "PRESS_IN_TURN":
       if (state.player1.turn) {
@@ -91,10 +108,32 @@ export default (state, action) => {
       const { xCoordinate, yCoordinate, sign } = payload;
       state.board[yCoordinate][xCoordinate] = sign;
       return state;
+
     case "CHECK_IF_SOMEONE_WIN":
       checkForRows();
       checkForColumns();
       checkForDiagonals();
+      checkIfIsATie();
+      return state;
+    case "RESTART_GAME":
+      state.board = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""],
+      ];
+      state.player1 = {
+        turn: true,
+        win: false,
+      };
+      state.player2 = {
+        turn: false,
+        win: false,
+      };
+      state.gameOver = false;
+      state.tie = false;
+      state.someoneWin = false;
+      state.isATie = false;
+      return state;
     default:
       return state;
   }

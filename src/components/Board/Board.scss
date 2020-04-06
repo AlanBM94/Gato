@@ -11,38 +11,3 @@
   grid-template-rows: repeat(3, 1fr);
   box-shadow: 3px 3px 3px $shadow;
 }
-
-.message {
-  grid-column: 2;
-  grid-row: 2;
-  width: 100%;
-  height: 100%;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1rem;
-  align-items: center;
-  justify-content: space-around;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  &--pink {
-    background: $pink !important;
-  }
-  &--blue {
-    background: $blue !important;
-  }
-  & button {
-    background: $white;
-    border: none;
-    padding: 8px 6px;
-    font-weight: 600;
-    width: 6rem;
-    height: 2rem;
-    &:hover {
-      cursor: pointer;
-    }
-    &:focus {
-      outline: none;
-    }
-  }
-}
