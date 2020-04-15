@@ -1,12 +1,33 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import SignButton from "./../SignButton/SignButton";
 import Message from "./../Message/Message";
+import { Redirect } from "react-router-dom";
 import { GameContext } from "./../../context/GameContext";
+import io from "socket.io-client";
 import "./Board.scss";
+
+let socket;
 
 const Board = () => {
   const [gameHasFinished, setGameHasFinished] = useState(false);
+  const [connectionnFailed, setConnectionnFailed] = useState({});
   const { gameState, restartGame } = useContext(GameContext);
+  const ENDPOINT = "localhost:5000";
+  const room = "game";
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("join", { room }, () => {});
+
+    socket.on("messageFailed", (message) => {
+      setConnectionnFailed(message);
+    });
+
+    return () => {
+      socket.emit("disconnect");
+      socket.off();
+    };
+  }, [ENDPOINT]);
 
   const createMessage = () => {
     let message;
@@ -20,7 +41,7 @@ const Board = () => {
     return message;
   };
 
-  const createClass = () => {
+  const createClassName = () => {
     let classComponent;
     if (gameState.player1.win) {
       classComponent = "pink";
@@ -36,7 +57,7 @@ const Board = () => {
     if (gameState.gameOver) {
       setGameHasFinished(true);
       createMessage();
-      createClass();
+      createClassName();
     }
   };
 
@@ -47,7 +68,7 @@ const Board = () => {
 
   const content = gameHasFinished ? (
     <Message
-      className={createClass()}
+      className={createClassName()}
       content={createMessage()}
       restartGame={restartGameHandler}
     />
@@ -110,7 +131,11 @@ const Board = () => {
     </>
   );
 
-  return <div className="board">{content}</div>;
+  return connectionnFailed.connectionFailed ? (
+    <Redirect to="/connectionFailed" />
+  ) : (
+    <div className="board">{content}</div>
+  );
 };
 
 export default Board;
