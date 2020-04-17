@@ -1,17 +1,27 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { GameContext } from "./../../context/GameContext";
 import "./SignButton.scss";
 
-const SignButton = ({ position, xAxis, yAxis, updateBoardState }) => {
+const SignButton = ({
+  position,
+  xAxis,
+  yAxis,
+  updateBoardState,
+  buttonPressedFromServer,
+}) => {
   const [isPressed, setIsPressed] = useState(false);
   const [currentSign, setCurrentSign] = useState();
-  const { gameState, pressInTurn, setBoard, checkIfSomeoneWin } = useContext(
+  const [pressedFromServer, setPressedFromServer] = useState();
+  const { gameState, changeTurn, setBoard, checkIfSomeoneWin } = useContext(
     GameContext
   );
 
+  let sign;
+
   const clickHandler = () => {
+    sign = gameState.player1.turn ? "o" : "x";
+    changeTurn();
     setIsPressed(true);
-    pressInTurn();
     setCurrentSign(
       gameState.player1.turn ? (
         <i className="fas fa-times sign sign--blue"></i>
@@ -23,8 +33,26 @@ const SignButton = ({ position, xAxis, yAxis, updateBoardState }) => {
       ? setBoard(xAxis, yAxis, "x")
       : setBoard(xAxis, yAxis, "o");
     checkIfSomeoneWin();
-    updateBoardState();
+    updateBoardState(xAxis, yAxis, sign);
   };
+
+  useEffect(() => {
+    setPressedFromServer(buttonPressedFromServer);
+    if (
+      pressedFromServer &&
+      pressedFromServer.xAxis === xAxis &&
+      pressedFromServer.yAxis === yAxis
+    ) {
+      setIsPressed(true);
+      setCurrentSign(
+        pressedFromServer.sign === "o" ? (
+          <i className="far fa-circle sign sign--pink"></i>
+        ) : (
+          <i className="fas fa-times sign sign--blue"></i>
+        )
+      );
+    }
+  }, [buttonPressedFromServer]);
 
   return (
     <button

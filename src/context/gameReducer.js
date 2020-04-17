@@ -1,5 +1,3 @@
-import { initialState } from "./GameContext";
-
 export default (state, action) => {
   const { type, payload } = action;
   const { board } = state;

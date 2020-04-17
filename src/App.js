@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import React from "react";
+import ConnectionFailedMessage from "./components/ConnectionFailedMessage/ConnectionFailedMessage";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Board from "./components/Board/Board";
 import { GameContexProvider } from "./context/GameContext";
 
 import "./App.css";
-
-let socket;
-
-const Error = () => {
-  return <p>Este es un error</p>;
-};
 
 function App() {
   return (
@@ -23,7 +13,11 @@ function App() {
         <Router>
           <Switch>
             <Route path="/" exact component={Board} />
-            <Route path="/connectionFailed" exact component={Error} />
+            <Route
+              path="/connectionFailed"
+              exact
+              component={ConnectionFailedMessage}
+            />
           </Switch>
         </Router>
       </GameContexProvider>

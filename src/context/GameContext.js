@@ -26,8 +26,8 @@ export const GameContext = createContext(initialState);
 export const GameContexProvider = ({ children }) => {
   const [gameState, dispatch] = useReducer(gameReducer, initialState);
 
-  const pressInTurn = (player) => {
-    dispatch({ type: "PRESS_IN_TURN", payload: { player } });
+  const changeTurn = () => {
+    dispatch({ type: "PRESS_IN_TURN" });
   };
 
   const setBoard = (xCoordinate, yCoordinate, sign) => {
@@ -49,7 +49,7 @@ export const GameContexProvider = ({ children }) => {
     <GameContext.Provider
       value={{
         gameState,
-        pressInTurn,
+        changeTurn,
         setBoard,
         checkIfSomeoneWin,
         restartGame,
